@@ -69,14 +69,14 @@ public class Menu {
         String currentInterpreter = settingsManager.getInterpreter();
         int selectedInterpreterIndex = Integer.max(foundInterpreters.indexOf(currentInterpreter), 0);
 
-
+        // Choose found interpreter
         JComboBox interpretersComboBox = new JComboBox(foundInterpreters.toArray());
         interpretersComboBox.setPreferredSize(new Dimension(390, 20));
         interpretersComboBox.setSelectedIndex(selectedInterpreterIndex);
         JScrollPane interpretersListScroll = new JScrollPane(interpretersComboBox,
                 JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
-
+        // Set your interpreter
         JFileChooser interpreterChooser = new JFileChooser();
         JButton showInterpreterDialogButton = new JButton("Add interpreter");
         showInterpreterDialogButton.addActionListener(actionEvent -> {
@@ -96,18 +96,11 @@ public class Menu {
             }
         });
 
-
-        JButton exitButton = new JButton("Exit");
-        exitButton.addActionListener(actionEvent -> {
-            System.exit(0);
-        });
-
-
+        // choose CSV file
         JTextArea chooseFileTextArea = new JTextArea(settingsManager.getCurrentFile(), 1, 35);
         JScrollPane scrollTextAreaPane = new JScrollPane(chooseFileTextArea,
                 JScrollPane.VERTICAL_SCROLLBAR_NEVER, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         chooseFileTextArea.setEditable(false);
-
 
         JFileChooser csvFileChooser = new JFileChooser();
         csvFileChooser.setAcceptAllFileFilterUsed(false);
@@ -126,9 +119,13 @@ public class Menu {
             }
         });
 
+        // Delimiter field
         JTextArea setDelimiterTextArea = new JTextArea(",", 1, 40);
+        JLabel delimiterHint = new JLabel();
+        delimiterHint.setSize(new Dimension(70, 30));
+        delimiterHint.setText("Delimiter: ");
 
-
+        // Create "Run" button
         JButton runButton = new JButton("Run");
         runButton.addActionListener(actionEvent -> {
             if (chooseFileTextArea.getText().equals("") || setDelimiterTextArea.getText().equals("") ||
@@ -150,9 +147,11 @@ public class Menu {
             }
         });
 
-        JLabel delimiterHint = new JLabel();
-        delimiterHint.setSize(new Dimension(70, 30));
-        delimiterHint.setText("Delimiter: ");
+        // Exit button
+        JButton exitButton = new JButton("Exit");
+        exitButton.addActionListener(actionEvent -> {
+            System.exit(0);
+        });
 
         controlPanel.add(interpretersListScroll);
         controlPanel.add(showInterpreterDialogButton);
@@ -204,6 +203,7 @@ public class Menu {
         if (data == null) {
             showError("Some IOException occurred");
         }
+
         // Create table
         DefaultTableModel model1 = new DefaultTableModel(columns, 0);
         table = new JTable(model1);
